@@ -1,8 +1,14 @@
 import {WebSocketServer} from 'ws';
 
+const fs = require('node:fs');
+const path = require('node:path');
+
 const wss = new WebSocketServer({port: 6969})
 
 let conns = new Map()
+
+const commandsPath = path.join(__dirname, 'Events');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 wss.on('connection', function connection(ws) {
     let id = generateString(5)
